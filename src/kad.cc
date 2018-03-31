@@ -406,6 +406,11 @@ int kad_index(kad_db_t* db, int argc, char **argv)
       cerr << nb_kmers  << " kmers loaded" << endl;
   }
 
+  if (batch_i < BUFFER_SIZE) {
+    db->counts_db->Write(rocksdb::WriteOptions(), &batch);
+    batch.Clear();
+  }
+
   cerr << "Successfully loaded " << nb_kmers << " kmers" << endl;
 
   ks_destroy(ks);
